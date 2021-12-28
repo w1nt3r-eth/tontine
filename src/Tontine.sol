@@ -24,8 +24,12 @@ contract Tontine {
             return 0;
         }
 
-        uint256 delta = block.timestamp - startsAt;
-        return delta / 1 days + 1;
+        unchecked {
+            // startsAt is always <= block.timestamp here
+            uint256 delta = block.timestamp - startsAt;
+            // Will overflow in billions of years
+            return delta / 1 days + 1;
+        }
     }
 
     function checkIn() public {
